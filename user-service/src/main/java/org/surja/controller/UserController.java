@@ -14,16 +14,21 @@ import org.springframework.web.bind.annotation.RestController;
 import org.surja.dto.UserDto;
 import org.surja.service.UserService;
 
+import java.util.concurrent.ExecutionException;
+
 @RestController
 @RequestMapping("/user-service")
 public class UserController {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
 
     @PostMapping("/user")
-    public ResponseEntity<String > createUser(@RequestBody @Valid UserDto userDto){
+    public ResponseEntity<String > createUser(@RequestBody @Valid UserDto userDto) throws ExecutionException, InterruptedException {
 
+        LOGGER.info("request for create user : {}",userDto.getEmail());
         return ResponseEntity.ok("user Id : " + userService.createUser(userDto));
 
     }
