@@ -7,5 +7,5 @@ import org.surja.entity.Transaction;
 @Repository
 public interface TxnRepo extends JpaRepository<Transaction, Long> {
 
-    Long findByTxnId(String txnId);
+    Transaction findByTxnId(String txnId);
 }

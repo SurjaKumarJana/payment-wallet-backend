@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.surja.dto.InitTxnPayload;
 import org.surja.dto.TxnRequestDto;
+import org.surja.dto.TxnStatusDto;
 import org.surja.entity.Transaction;
 import org.surja.entity.TransactionStatus;
 import org.surja.repo.TxnRepo;
@@ -33,6 +35,7 @@ public class TxnService {
     private String txnInitTopic;
 
 
+    @Transactional
     public String initTransaction(TxnRequestDto txnDto) throws ExecutionException, InterruptedException {
 
         //saving the transaction in db
@@ -62,6 +65,17 @@ public class TxnService {
 
 
         return transaction.getTxnId();
+    }
+
+    public TxnStatusDto checkStatus(String txnId){
+        Transaction transaction = txnRepo.findByTxnId(txnId);
+        TxnStatusDto txnStatusDto = new TxnStatusDto();
+        if (transaction != null){
+            txnStatusDto.setStatus(transaction.getStatus().toString());
+            txnStatusDto.setReason(transaction.getReason());
+        }
+        return txnStatusDto;
+
     }
 
 

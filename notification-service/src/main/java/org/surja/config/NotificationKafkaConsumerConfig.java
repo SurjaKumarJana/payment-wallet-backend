@@ -47,7 +47,7 @@ public class NotificationKafkaConsumerConfig {
                 "\n" +
                 "We’re glad to have you on board! \uD83D\uDE80");
 
-        //simpleMailMessage.setCc(mailSender);
+        simpleMailMessage.setCc(mailSender);
         simpleMailMessage.setTo(userCreatedPayload.getUserEmail());
         javaMailSender.send(simpleMailMessage);
         LOGGER.info("Welcome email send to  : {}", userCreatedPayload.getUserEmail());
