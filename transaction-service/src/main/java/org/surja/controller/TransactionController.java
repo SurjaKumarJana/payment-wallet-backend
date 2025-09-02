@@ -13,6 +13,7 @@ import org.surja.dto.TxnRequestDto;
 import org.surja.service.TxnService;
 
 import javax.xml.crypto.dsig.TransformService;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/txn-service")
@@ -24,7 +25,7 @@ public class TransactionController {
     private TxnService txnService;
 
     @PostMapping("/init-txn")
-    public ResponseEntity<String> initTransaction(@RequestBody TxnRequestDto txnRequestDto){
+    public ResponseEntity<String> initTransaction(@RequestBody TxnRequestDto txnRequestDto) throws ExecutionException, InterruptedException {
         LOGGER.info("request for init txn requestId : {} ",txnRequestDto.getFromUserId());
         return ResponseEntity.accepted().body(txnService.initTransaction(txnRequestDto));
     }
