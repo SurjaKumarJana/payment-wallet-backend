@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InitTxnPayload implements Serializable {
-    private static final long serialVersionUID = 1l;
+    private static final long serialVersionUID = 11l;
 
     private Long id;
     private Long formUserId;

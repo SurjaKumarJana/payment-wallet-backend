@@ -1,7 +1,6 @@
 package org.surja.config;
 
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -26,7 +25,7 @@ public class NotificationKafkaConsumerConfig {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    @Value("${email.config.usernam}")
+    @Value("${email.config.username}")
     private String mailSender ;
 
     @KafkaListener(topics = "${user.created.topic}", groupId = "email")
@@ -48,9 +47,10 @@ public class NotificationKafkaConsumerConfig {
                 "\n" +
                 "We’re glad to have you on board! \uD83D\uDE80");
 
-        simpleMailMessage.setCc(mailSender);
+        //simpleMailMessage.setCc(mailSender);
         simpleMailMessage.setTo(userCreatedPayload.getUserEmail());
         javaMailSender.send(simpleMailMessage);
+        LOGGER.info("Welcome email send to  : {}", userCreatedPayload.getUserEmail());
         MDC.clear();;
     }
 }
