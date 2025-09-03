@@ -9,9 +9,11 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.surja.dto.InitTxnPayload;
 import org.surja.dto.UserCreatedPayload;
 import org.surja.entity.Wallet;
 import org.surja.repo.WalletRepo;
+import org.surja.service.WalletService;
 
 @Configuration
 public class WalletKafkaConsummer {
@@ -23,6 +25,9 @@ public class WalletKafkaConsummer {
 
     @Autowired
     private WalletRepo walletRepo;
+
+    @Autowired
+    private WalletService walletService;
 
     @KafkaListener(topics = "${user.created.topic}", groupId = "wallet")
     public void consumeUserCreateTopic(ConsumerRecord payload) throws JsonProcessingException {
@@ -36,4 +41,15 @@ public class WalletKafkaConsummer {
         walletRepo.save(wallet);
         MDC.clear();;
     }
+
+    @KafkaListener(topics = "${txn.init.topic}" , groupId = "wallet")
+    public void consumeTxnInitTopic (ConsumerRecord payload) throws JsonProcessingException {
+        InitTxnPayload initTxnPayload = (InitTxnPayload) OBJECT_MAPPER.readValue(payload.value().toString(), InitTxnPayload.class);
+        MDC.put("requestId",initTxnPayload.getRequestId());
+        LOGGER.info("reading from kafka  {}",initTxnPayload);
+        walletService.walletTxn(initTxnPayload);
+        MDC.clear();
+
+    }
+
 }

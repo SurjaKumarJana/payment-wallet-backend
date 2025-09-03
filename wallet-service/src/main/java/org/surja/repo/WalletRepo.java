@@ -6,4 +6,6 @@ import org.surja.entity.Wallet;
 
 @Repository
 public interface WalletRepo extends JpaRepository<Wallet,Long> {
+
+    Wallet findByUserId(Long userId);
 }

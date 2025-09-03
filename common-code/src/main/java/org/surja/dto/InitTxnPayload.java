@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class InitTxnPayload implements Serializable {
     private static final long serialVersionUID = 11l;
 
-    private Long id;
+    private Long id;//ID for actual txn
     private Long formUserId;
     private Long toUserId;
     private Double amount;
