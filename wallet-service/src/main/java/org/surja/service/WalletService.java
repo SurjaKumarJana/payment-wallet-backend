@@ -50,7 +50,7 @@ public class WalletService {
             toWallet.setBalance(toWallet.getBalance() + payload.getAmount());
 
             completedPayload.setSuccess(true);
-            completedPayload.setReason("TRANSACTION SUCCESS");
+            completedPayload.setReason("SUFFICIENT FUND");
 
 
             WalletUpdatePayload walletpayload1 = new WalletUpdatePayload(
